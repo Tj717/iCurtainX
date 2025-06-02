@@ -52,7 +52,7 @@ export default function LongImage({ slug, operation }: Props) {
       )}
       <div className="w-full max-w-[800px]">
         <Image
-          src="/blinds/shipment_detail.png"
+          src="https://fhasj7d8bol4e7bf.public.blob.vercel-storage.com/blinds/shipment%20detail.png"
           alt="Shipment details"
           width={600}
           height={0}
