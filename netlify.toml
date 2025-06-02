@@ -4,6 +4,8 @@
 
 [build.environment]
   NEXT_TELEMETRY_DISABLED = "1"
+  NODE_VERSION = "18"
+  NPM_FLAGS = "--legacy-peer-deps"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
@@ -23,4 +25,16 @@
 [functions]
   node_bundler = "esbuild"
   external_node_modules = ["@prisma/client"]
-  included_files = ["prisma/**/*"] 
+  included_files = ["prisma/**/*"]
+  directory = ".next/server/pages/api"
+
+[functions.environment]
+  NODE_OPTIONS = "--max-old-space-size=4096"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin" 
