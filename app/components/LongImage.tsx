@@ -16,7 +16,7 @@ export default function LongImage({ slug, operation }: Props) {
       ? `blinds/${slug}/${operation}`
       : `blinds/${slug}`;
     
-    fetch(`/api/media?path=${path}`)
+    fetch(`/api/images?productId=${slug}&directory=${operation || ''}`)
       .then(async res => {
         if (!res.ok) {
           return [];
@@ -40,15 +40,13 @@ export default function LongImage({ slug, operation }: Props) {
     return null;
   }
 
-  const imagePath = operation 
-    ? `/blinds/${slug}/${operation}/long.jpg`
-    : `/blinds/${slug}/long.jpg`;
+  const imageUrl = `https://fhasj7d8bol4e7bf.public.blob.vercel-storage.com/blinds/${slug}${operation ? `/${operation}` : ''}/long.jpg`;
 
   return (
     <div className="w-full flex justify-center mt-8">
       <div className="w-full max-w-[800px]">
         <Image
-          src={imagePath}
+          src={imageUrl}
           alt="Product long view"
           width={600}
           height={0}

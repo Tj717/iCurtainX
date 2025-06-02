@@ -5,8 +5,13 @@ import Image from 'next/image';
 import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
+type Photo = {
+  name: string;
+  url: string;
+};
+
 type Props = {
-  photos: string[];
+  photos: Photo[];
   limit?: number;
   onLoadMore?: () => void;
   hasMore?: boolean;
@@ -14,11 +19,11 @@ type Props = {
 };
 
 export default function CustomerPhotos({ photos, limit = 5, onLoadMore, hasMore = false, singleRow = false }: Props) {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<Photo | null>(null);
   const displayedPhotos = photos.slice(0, limit);
 
-  const handleImageClick = (image: string) => {
-    setSelectedImage(image);
+  const handleImageClick = (photo: Photo) => {
+    setSelectedImage(photo);
   };
 
   const handleCloseOverlay = () => {
@@ -36,7 +41,7 @@ export default function CustomerPhotos({ photos, limit = 5, onLoadMore, hasMore 
           >
             <div className="relative w-full h-full">
               <Image
-                src={`/blinds/picture-demo/all/${photo}`}
+                src={photo.url}
                 alt={`Customer photo ${index + 1}`}
                 fill
                 className="object-cover"
@@ -73,7 +78,7 @@ export default function CustomerPhotos({ photos, limit = 5, onLoadMore, hasMore 
           </button>
           <div className="relative w-full h-full max-w-7xl max-h-[90vh] p-4">
             <Image
-              src={`/blinds/picture-demo/all/${selectedImage}`}
+              src={selectedImage.url}
               alt="Selected photo"
               fill
               className="object-contain"

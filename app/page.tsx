@@ -14,16 +14,21 @@ import CustomerPhotos from "@/app/components/CustomerPhotos"
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("")
-  const [customerPhotos, setCustomerPhotos] = useState<string[]>([])
+  const [customerPhotos, setCustomerPhotos] = useState<Array<{ name: string; url: string }>>([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    fetch('/api/media?path=blinds/picture-demo/all')
+    fetch('/api/images?productId=picture-demo&directory=all')
       .then(res => res.json())
       .then(files => {
-        const imageFiles = files.filter((file: string) => 
-          decodeURIComponent(file).match(/\.(jpg|jpeg|png|webp)$/i)
-        );
+        const imageFiles = files
+          .filter((file: string) => 
+            decodeURIComponent(file).match(/\.(jpg|jpeg|png|webp)$/i)
+          )
+          .map((file: string) => ({
+            name: file,
+            url: `https://fhasj7d8bol4e7bf.public.blob.vercel-storage.com/blinds/picture-demo/all/${file}`
+          }));
         setCustomerPhotos(imageFiles);
         setIsLoading(false);
       })
@@ -89,7 +94,7 @@ export default function Home() {
                 <div className="border rounded-lg overflow-hidden transition-all hover:shadow-md bg-white">
                   <div className="relative aspect-square">
                     <Image
-                      src={`/blinds/${product.id}/thumbnail.jpg`}
+                      src={`https://fhasj7d8bol4e7bf.public.blob.vercel-storage.com/blinds/${product.id}/thumbnail.jpg`}
                       alt={product.name}
                       fill
                       className="object-cover"

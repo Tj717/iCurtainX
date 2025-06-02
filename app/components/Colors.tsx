@@ -9,42 +9,94 @@ type Props = {
   operation?: string;
 };
 
+type ColorFile = {
+  name: string;
+  url: string;
+};
+
 export default function Colors({ slug, operation }: Props) {
-  const [colorFiles, setColorFiles] = useState<string[]>([]);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [colorFiles, setColorFiles] = useState<ColorFile[]>([]);
+  const [selectedImage, setSelectedImage] = useState<ColorFile | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const path = operation 
       ? `blinds/${slug}/${operation}/color`
       : `blinds/${slug}/color`;
     
-    fetch(`/api/media?path=${path}`)
+    console.log('Fetching color files from:', path);
+    setIsLoading(true);
+    setError(null);
+    fetch(`/api/images?productId=${slug}&directory=${operation ? `${operation}/color` : 'color'}`)
       .then(async res => {
         if (!res.ok) {
-          // If the response is not ok (404, 500, etc.), return empty array
-          console.log('Directory not found or error:', path);
-          return [];
+          throw new Error(`HTTP error! status: ${res.status}`);
         }
         const data = await res.json();
-        return Array.isArray(data) ? data : [];
+        console.log('API response:', data);
+        return data;
       })
       .then(files => {
-        const imageFiles = files.filter((file: string) => 
-          decodeURIComponent(file).match(/\.(jpg|jpeg|png)$/i)
-        );
+        if (!Array.isArray(files)) {
+          throw new Error('Invalid response format');
+        }
+        const imageFiles = files
+          .filter((file: string) => {
+            const decodedFile = decodeURIComponent(file);
+            const isValid = decodedFile.match(/\.(jpg|jpeg|png)$/i);
+            console.log('File:', decodedFile, 'isValid:', isValid);
+            return isValid;
+          })
+          .map(file => {
+            const decodedFile = decodeURIComponent(file);
+            const url = `https://fhasj7d8bol4e7bf.public.blob.vercel-storage.com/blinds/${slug}${operation ? `/${operation}` : ''}/color/${decodedFile}`;
+            console.log('Created URL:', url);
+            return {
+              name: file,
+              url
+            };
+          });
+        console.log('Processed color files:', imageFiles);
         setColorFiles(imageFiles);
+        setIsLoading(false);
       })
       .catch(error => {
         console.error('Error fetching color files:', error);
+        setError(error.message);
         setColorFiles([]);
+        setIsLoading(false);
       });
   }, [slug, operation]);
 
-  if (colorFiles.length === 0) {
-    return null;
+  if (isLoading) {
+    return (
+      <div className="w-full h-[200px] border-2 border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
   }
 
-  const handleImageClick = (image: string) => {
+  if (error) {
+    return (
+      <div className="w-full h-[200px] border-2 border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
+        <span className="text-red-500">Error: {error}</span>
+      </div>
+    );
+  }
+
+  if (colorFiles.length === 0) {
+    return (
+      <div className="w-full h-[200px] border-2 border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <span className="text-gray-400 block mb-2">No color options available</span>
+          <span className="text-sm text-gray-500">This folder has not been migrated to the new storage yet.</span>
+        </div>
+      </div>
+    );
+  }
+
+  const handleImageClick = (image: ColorFile) => {
     setSelectedImage(image);
   };
 
@@ -53,31 +105,27 @@ export default function Colors({ slug, operation }: Props) {
   };
 
   return (
-    <>
-      <div className="mt-8 p-4 sm:p-6 rounded-lg border border-gray-200 bg-blue-100">
-        <h2 className="text-xl font-semibold mb-4 sm:mb-6">Colors</h2>
-        <div className="flex flex-wrap gap-4 sm:gap-6 justify-center">
-          {colorFiles.map((file, index) => (
-            <div
-              key={index}
-              className="w-[100px] h-[130px] cursor-pointer rounded-lg overflow-hidden border border-gray-200 hover:border-blue-500 transition-colors relative bg-white"
-              onClick={() => handleImageClick(file)}
-            >
-              <div className="absolute top-1 right-1 z-10 bg-white/80 text-gray-600 text-xs font-medium px-1.5 py-0.5 rounded">
-                {index + 1}
-              </div>
-              <div className="relative w-full h-full">
-                <Image
-                  src={`/blinds/${slug}${operation ? `/${operation}` : ''}/color/${file}`}
-                  alt={`Color option ${index + 1}`}
-                  fill
-                  sizes="100px"
-                  className="object-contain p-1"
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+    <div className="w-full">
+      <h2 className="text-xl font-semibold mb-4">Available Colors</h2>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        {colorFiles.map((file, index) => (
+          <div
+            key={index}
+            className="relative aspect-square border-2 border-gray-300 rounded-lg overflow-hidden cursor-pointer hover:border-blue-500 transition-colors"
+            onClick={() => handleImageClick(file)}
+          >
+            <Image
+              src={file.url}
+              alt={`Color option ${index + 1}`}
+              fill
+              className="object-cover"
+              onError={(e) => {
+                console.error('Image failed to load:', file.url);
+                setError('Failed to load image');
+              }}
+            />
+          </div>
+        ))}
       </div>
 
       {/* Full-screen overlay */}
@@ -94,14 +142,18 @@ export default function Colors({ slug, operation }: Props) {
           </button>
           <div className="relative w-full h-full max-w-7xl max-h-[90vh] p-4">
             <Image
-              src={`/blinds/${slug}${operation ? `/${operation}` : ''}/color/${selectedImage}`}
+              src={selectedImage.url}
               alt="Selected color"
               fill
               className="object-contain"
+              onError={(e) => {
+                console.error('Full-screen image failed to load:', selectedImage.url);
+                setError('Failed to load image');
+              }}
             />
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 } 

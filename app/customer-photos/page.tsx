@@ -5,19 +5,29 @@ import CustomerPhotos from '../components/CustomerPhotos';
 import Link from 'next/link';
 import { ChevronRight, Home } from 'lucide-react';
 
+type Photo = {
+  name: string;
+  url: string;
+};
+
 export default function CustomerPhotosPage() {
-  const [allPhotos, setAllPhotos] = useState<string[]>([]);
-  const [displayedPhotos, setDisplayedPhotos] = useState<string[]>([]);
+  const [allPhotos, setAllPhotos] = useState<Photo[]>([]);
+  const [displayedPhotos, setDisplayedPhotos] = useState<Photo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentLimit, setCurrentLimit] = useState(12);
 
   useEffect(() => {
-    fetch('/api/media?path=blinds/picture-demo/all')
+    fetch('/api/images?productId=picture-demo&directory=all')
       .then(res => res.json())
       .then(files => {
-        const imageFiles = files.filter((file: string) => 
-          decodeURIComponent(file).match(/\.(jpg|jpeg|png|webp)$/i)
-        );
+        const imageFiles = files
+          .filter((file: string) => 
+            decodeURIComponent(file).match(/\.(jpg|jpeg|png|webp)$/i)
+          )
+          .map((file: string) => ({
+            name: file,
+            url: `https://fhasj7d8bol4e7bf.public.blob.vercel-storage.com/blinds/picture-demo/all/${file}`
+          }));
         setAllPhotos(imageFiles);
         setDisplayedPhotos(imageFiles.slice(0, currentLimit));
         setIsLoading(false);

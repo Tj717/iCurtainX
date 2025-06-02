@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { listBlobs } from '@/lib/blob-storage';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -11,22 +10,19 @@ export async function GET(request: Request) {
   }
 
   try {
-    const fullPath = path.join(process.cwd(), 'public', mediaPath);
-    console.log('Reading directory:', fullPath);
+    const prefix = `${mediaPath}/`;
+    const blobs = await listBlobs(prefix);
     
-    if (!fs.existsSync(fullPath)) {
-      console.error('Directory does not exist:', fullPath);
-      return NextResponse.json({ error: 'Directory not found' }, { status: 404 });
-    }
+    // Extract filenames from blob URLs
+    const files = blobs.map(blob => {
+      const url = new URL(blob.url);
+      return url.pathname.split('/').pop() || '';
+    });
 
-    const files = fs.readdirSync(fullPath);
     console.log('Found files:', files);
-    
-    // Encode spaces in filenames for URL safety
-    const encodedFiles = files.map(file => encodeURIComponent(file));
-    return NextResponse.json(encodedFiles);
+    return NextResponse.json(files);
   } catch (error) {
-    console.error('Error reading media directory:', error);
-    return NextResponse.json({ error: 'Failed to read media directory' }, { status: 500 });
+    console.error('Error listing blobs:', error);
+    return NextResponse.json({ error: 'Failed to list media files' }, { status: 500 });
   }
 } 
