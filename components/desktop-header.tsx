@@ -7,7 +7,7 @@ export default function DesktopHeader() {
   return (
     <div className="hidden md:block">
       {/* Main Navigation */}
-      <div className="bg-blue-800 text-white">
+      <div className="fixed top-0 left-0 right-0 bg-blue-800 text-white z-50">
         <div className="container mx-auto flex items-center justify-between py-3">
           {/* Logo on left */}
           <Link href="/" className="flex items-center">
@@ -46,6 +46,8 @@ export default function DesktopHeader() {
           </div>
         </div>
       </div>
+      {/* Add padding to account for fixed header */}
+      <div className="h-[69px]"></div>
     </div>
   )
 }
