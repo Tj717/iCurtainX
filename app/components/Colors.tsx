@@ -90,7 +90,6 @@ export default function Colors({ slug, operation }: Props) {
       <div className="w-full h-[200px] border-2 border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <span className="text-gray-400 block mb-2">No color options available</span>
-          <span className="text-sm text-gray-500">This folder has not been migrated to the new storage yet.</span>
         </div>
       </div>
     );
