@@ -16,6 +16,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  output: 'standalone',
+  swcMinify: true,
   experimental: {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
