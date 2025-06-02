@@ -36,18 +36,24 @@ export default function LongImage({ slug, operation }: Props) {
       });
   }, [slug, operation]);
 
-  if (!hasLongImage) {
-    return null;
-  }
-
-  const imageUrl = `https://fhasj7d8bol4e7bf.public.blob.vercel-storage.com/blinds/${slug}${operation ? `/${operation}` : ''}/long.jpg`;
-
   return (
-    <div className="w-full flex justify-center mt-8">
+    <div className="w-full flex flex-col items-center gap-8 mt-8">
+      {hasLongImage && (
+        <div className="w-full max-w-[800px]">
+          <Image
+            src={`https://fhasj7d8bol4e7bf.public.blob.vercel-storage.com/blinds/${slug}${operation ? `/${operation}` : ''}/long.jpg`}
+            alt="Product long view"
+            width={600}
+            height={0}
+            className="w-full h-auto"
+            priority
+          />
+        </div>
+      )}
       <div className="w-full max-w-[800px]">
         <Image
-          src={imageUrl}
-          alt="Product long view"
+          src="/blinds/shipment_detail.png"
+          alt="Shipment details"
           width={600}
           height={0}
           className="w-full h-auto"

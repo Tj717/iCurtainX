@@ -161,29 +161,33 @@ export default function MediaGallery({ slug, operation }: Props) {
 
         {/* Navigation Arrows */}
         {mediaFiles.length > 1 && (
-          <>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handlePrevious();
-              }}
-              className="absolute top-[50%] -translate-y-1/2 left-[5%] p-2 rounded-full hover:bg-black/10 transition-colors text-gray-600"
-              aria-label="Previous"
-            >
-              <ChevronLeft size={24} />
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleNext();
-              }}
-              className="absolute top-[50%] -translate-y-1/2 right-[5%] p-2 rounded-full hover:bg-black/10 transition-colors text-gray-600"
-              aria-label="Next"
-            >
-              <ChevronRight size={24} />
-            </button>
-          </>
-        )}
+        <>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrevious();
+            }}
+            className="absolute top-[50%] -translate-y-1/2 left-[5%] p-2 rounded-full bg-white border border-gray-700 hover:bg-black/10 transition-colors text-gray-600"
+            aria-label="Previous"
+          >
+            <ChevronLeft size={24} strokeWidth={3} />
+          </button>
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNext();
+            }}
+            className="absolute top-[50%] -translate-y-1/2 right-[5%] p-2 rounded-full bg-white border border-gray-700 hover:bg-black/10 transition-colors text-gray-600"
+            aria-label="Next"
+          >
+            <ChevronRight size={24} strokeWidth={3} />
+          </button>
+        </>
+      )}
+
+
+
 
         {/* Pagination Dots */}
         {mediaFiles.length > 1 && (
