@@ -22,6 +22,43 @@ const nextConfig = {
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
   },
+  // Optimize serverless functions
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.optimization = {
+        ...config.optimization,
+        minimize: true,
+        splitChunks: {
+          chunks: 'all',
+          minSize: 20000,
+          maxSize: 244000,
+          cacheGroups: {
+            default: false,
+            vendors: false,
+            framework: {
+              chunks: 'all',
+              name: 'framework',
+              test: /[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+              priority: 40,
+              enforce: true,
+            },
+            lib: {
+              test: /[\\/]node_modules[\\/]/,
+              chunks: 'all',
+              name(module) {
+                const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+                return `npm.${packageName.replace('@', '')}`;
+              },
+              priority: 30,
+              minChunks: 1,
+              reuseExistingChunk: true,
+            },
+          },
+        },
+      };
+    }
+    return config;
+  },
 }
 
 if (userConfig) {

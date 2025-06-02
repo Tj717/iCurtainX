@@ -1,6 +1,12 @@
 import { NextResponse } from 'next/server'
-import fs from 'fs'
+import { promises as fs } from 'fs'
 import path from 'path'
+
+// Utility function to check if file is an image
+const isImageFile = (filename: string) => {
+  const ext = path.extname(filename).toLowerCase()
+  return ['.jpg', '.jpeg', '.png', '.gif', '.webp'].includes(ext)
+}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -14,19 +20,9 @@ export async function GET(request: Request) {
   try {
     const dirPath = path.join(process.cwd(), 'public', 'blinds', productId, directory)
     
-    // Check if directory exists
-    if (!fs.existsSync(dirPath)) {
-      return NextResponse.json({ error: 'Directory not found' }, { status: 404 })
-    }
-
-    // Read directory contents
-    const files = fs.readdirSync(dirPath)
-    
-    // Filter for image files only
-    const imageFiles = files.filter(file => {
-      const ext = path.extname(file).toLowerCase()
-      return ['.jpg', '.jpeg', '.png', '.gif', '.webp'].includes(ext)
-    })
+    // Use async/await with promises
+    const files = await fs.readdir(dirPath)
+    const imageFiles = files.filter(isImageFile)
 
     return NextResponse.json(imageFiles)
   } catch (error) {
