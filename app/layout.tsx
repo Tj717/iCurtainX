@@ -10,8 +10,18 @@ import MobileHeader from "@/components/mobile-header"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Blinds Website",
+  title: "iCurtainX",
   description: "Your one-stop shop for all types of blinds",
+  icons: {
+    icon: [
+      {
+        url: '/favicon.png',
+        type: 'image/png',
+      }
+    ],
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+  },
 }
 
 export default function RootLayout({
@@ -21,6 +31,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <style>{`
+          @media (prefers-color-scheme: dark) {
+            link[rel="icon"],
+            link[rel="shortcut icon"],
+            link[rel="apple-touch-icon"] {
+              filter: invert(1) !important;
+            }
+          }
+        `}</style>
+      </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <MobileHeader />
