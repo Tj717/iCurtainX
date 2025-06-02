@@ -1,12 +1,5 @@
 import { NextResponse } from 'next/server'
-import { promises as fs } from 'fs'
-import path from 'path'
-
-// Utility function to check if file is an image
-const isImageFile = (filename: string) => {
-  const ext = path.extname(filename).toLowerCase()
-  return ['.jpg', '.jpeg', '.png', '.gif', '.webp'].includes(ext)
-}
+import { listBlobs } from '@/lib/blob-storage'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -18,15 +11,18 @@ export async function GET(request: Request) {
   }
 
   try {
-    const dirPath = path.join(process.cwd(), 'public', 'blinds', productId, directory)
+    const prefix = `blinds/${productId}/${directory}/`
+    const blobs = await listBlobs(prefix)
     
-    // Use async/await with promises
-    const files = await fs.readdir(dirPath)
-    const imageFiles = files.filter(isImageFile)
+    // Extract just the filenames from the blob URLs
+    const imageFiles = blobs.map(blob => {
+      const url = new URL(blob.url)
+      return url.pathname.split('/').pop()
+    })
 
     return NextResponse.json(imageFiles)
   } catch (error) {
-    console.error('Error reading directory:', error)
-    return NextResponse.json({ error: 'Failed to read directory' }, { status: 500 })
+    console.error('Error listing blobs:', error)
+    return NextResponse.json({ error: 'Failed to list images' }, { status: 500 })
   }
 } 

@@ -2,6 +2,8 @@ import { products } from '@/data/metadata';
 import { notFound } from 'next/navigation';
 import MediaGallery from './MediaGallery';
 import Colors from '@/app/components/Colors';
+import LongImage from '@/app/components/LongImage';
+import Breadcrumb from '@/app/components/Breadcrumb';
 
 type Props = {
   params: {
@@ -18,8 +20,14 @@ export default async function ProductDetailPage({ params }: Props) {
     notFound();
   }
 
+  const breadcrumbItems = [
+    { label: 'Blinds', href: '/blinds' },
+    { label: slug.charAt(0).toUpperCase() + slug.slice(1) }
+  ];
+
   return (
     <div className="container mx-auto px-4 py-8">
+      <Breadcrumb items={breadcrumbItems} />
       <h1 className="text-3xl font-bold mb-8">{slug.charAt(0).toUpperCase() + slug.slice(1)} Blind</h1>
       
       {/* Mobile Layout */}
@@ -30,6 +38,7 @@ export default async function ProductDetailPage({ params }: Props) {
         <div className="w-[90vw] max-w-[500px] mt-[5vw]">
           <Colors slug={slug} />
         </div>
+        <LongImage slug={slug} />
       </div>
 
       {/* Desktop Layout */}
@@ -40,6 +49,9 @@ export default async function ProductDetailPage({ params }: Props) {
         <div>
           <Colors slug={slug} />
         </div>
+      </div>
+      <div className="hidden lg:block">
+        <LongImage slug={slug} />
       </div>
     </div>
   );
