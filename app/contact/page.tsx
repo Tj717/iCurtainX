@@ -26,8 +26,8 @@ export default function ContactPage() {
                 <Phone className="h-8 w-8 text-blue-800" />
               </div>
               <div>
-                <h3 className="text-lg font-medium">Phone</h3>
-                <p className="text-blue-800 font-bold text-xl">800-505-1905</p>
+                <h3 className="text-lg font-medium">WhatsApp</h3>
+                <p className="text-blue-800 font-bold text-xl">+1(778)838-1238</p>
               </div>
             </div>
 
