@@ -23,16 +23,6 @@ export default function ContactPage() {
           <div className="grid gap-8">
             <div className="flex items-center gap-4">
               <div className="bg-blue-100 p-4 rounded-full">
-                <Phone className="h-8 w-8 text-blue-800" />
-              </div>
-              <div>
-                <h3 className="text-lg font-medium">WhatsApp</h3>
-                <p className="text-blue-800 font-bold text-xl">+1(778)838-1238</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <div className="bg-blue-100 p-4 rounded-full">
                 <Mail className="h-8 w-8 text-blue-800" />
               </div>
               <div>
@@ -41,9 +31,22 @@ export default function ContactPage() {
               </div>
             </div>
           </div>
+
+          {/* Two images below the email */}
+          <div className="mt-8 flex flex-col md:flex-row gap-8">
+            <img
+              src="https://fhasj7d8bol4e7bf.public.blob.vercel-storage.com/blinds/about%20us/whatsapp-21OVRJD7mWFNEayo6wZHIzvszhMWci.jpg"
+              alt="WhatsApp QR Code"
+              className="h-[max(400px,30vh)] w-auto object-cover border border-gray-300"
+            />
+            <img
+              src="https://fhasj7d8bol4e7bf.public.blob.vercel-storage.com/blinds/about%20us/wechat-MrcVciw3i3fsIy7PwKKklmEz1F5yEn.jpg"
+              alt="WeChat QR Code"
+              className="h-[max(400px,30vh)] w-auto object-cover border border-gray-300"
+            />
+          </div>
         </div>
       </div>
     </div>
   )
 }
-
