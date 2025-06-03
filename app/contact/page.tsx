@@ -35,7 +35,7 @@ export default function ContactPage() {
           {/* Two images below the email */}
           <div className="mt-8 flex flex-col md:flex-row gap-8">
             <img
-              src="https://fhasj7d8bol4e7bf.public.blob.vercel-storage.com/blinds/about%20us/whatsapp-21OVRJD7mWFNEayo6wZHIzvszhMWci.jpg"
+              src="https://fhasj7d8bol4e7bf.public.blob.vercel-storage.com/blinds/about%20us/whatsapp-l9IcT1oi35Mbn9YlU7ANVhhFOUwsW8.jpg"
               alt="WhatsApp QR Code"
               className="h-[max(400px,30vh)] w-auto object-cover border border-gray-300"
             />
