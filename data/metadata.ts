@@ -39,12 +39,13 @@ export const productTypes = {
   ]
 };
 
+
 export const productDescriptions: { [key: string]: string } = {
   // ────────── ROLLER/CORDLESS ──────────
   "roller/cordless": `
 A simple roller shade you lift or lower by hand—no cords hang down for a clean look.
 
-Benefits:
+Advantages:
 - Safe for kids and pets (no loose cords)
 - Easy, fingertip adjustment that stays put
 - Blocks out light for a darker room
@@ -61,12 +62,12 @@ Perfect for:
   "roller/motorized": `
 A motorized roller shade that works with a remote, timer, or smartphone—no manual lifting needed.
 
-Benefits:
+Advantages:
 - Works with smart home systems, voice assistants, and apps
 - Remote has a simple button layout with timer and instant modes
 - Two motor options:
-  • Plug-in (adapt the power plug for your area)
-  • Battery (USB-powered, includes a 3m cable)
+    • Plug-in (adapt the power plug for your area)
+    • Battery (USB-powered, includes a 3m cable)
 - Battery lasts up to 200 days on a single charge
 - Water- and dirt-resistant fabric for easy cleaning
 - Sleek, cordless look that fits any style
@@ -83,7 +84,7 @@ Perfect for:
   "zebra/cordless": `
 A cordless zebra shade with alternating sheer and solid stripes you raise by hand for flexible light control.
 
-Benefits:
+Advantages:
 - Safe for kids and pets (no dangling cords)
 - Easy, one-hand operation
 - Double-layer fabric lets air flow while filtering light
@@ -102,7 +103,7 @@ Perfect for:
   "zebra/motorized": `
 A motorized zebra shade with alternating sheer and solid stripes—controlled by remote, voice, or smartphone for easy, hands-free operation.
 
-Benefits:
+Advantages:
 - Works with Alexa or Google Assistant for voice control
 - Remote has timer and instant modes for scheduling and quick adjustments
 - Control from anywhere using the smartphone app
@@ -124,7 +125,7 @@ Perfect for:
   "honeycomb/cordless": `
 A cordless honeycomb (cellular) shade with hexagonal cells you lift by hand for insulation and noise reduction—no exposed cords.
 
-Benefits:
+Advantages:
 - Honeycomb design blocks heat and reduces outside noise
 - Safe for kids and pets with one-hand operation
 - Corrosion-resistant lower track for long life
@@ -142,7 +143,7 @@ Perfect for:
   "honeycomb/motorized": `
 A motorized honeycomb canopy shade for skylights or overhead windows—remote-control for easy, hands-free adjustment with insulation and noise reduction.
 
-Benefits:
+Advantages:
 - Hexagonal cells with aluminum-foil backing block UV, keep heat out in summer, and retain warmth in winter
 - Remote-control operation for effortless shading
 - Intelligent temperature control to keep rooms comfortable year-round
@@ -161,7 +162,7 @@ Perfect for:
   "shangrila/manual": `
 A corded Shangri-La shade with a three-layer design that softens light—adjust between open, half-open, or fully closed positions using the cord.
 
-Benefits:
+Advantages:
 - Layered fabric gently filters daylight for a soft glow
 - Dust cover protects the headrail and inner parts from dirt
 - Three positions (open, half-open, closed) for versatile light control
@@ -179,7 +180,7 @@ Perfect for:
   "outdoor": `
 An outdoor windproof blind for gazebos, balconies, and patios—operate by chain/rod or battery motor for sun and wind protection.
 
-Benefits:
+Advantages:
 - Windproof design stays stable in breezy conditions
 - Manual chain and rod for precise positioning
 - Optional battery motor for cordless control (battery system included)
@@ -199,7 +200,7 @@ Perfect for:
   "vertical": `
 A vertical blind system for large, floor-to-ceiling windows—use chain/rod or battery motor for easy light control.
 
-Benefits:
+Advantages:
 - Perfect for big windows and sliding doors
 - Manual chain/rod control or battery motor for hands-free use
 - Fabric options include sheer panels for soft light, opaque panels for privacy, and textured weaves for style
@@ -218,14 +219,14 @@ Perfect for:
   "wooden": `
 A wood-look blind made from durable PS (polystyrene) material—gives you the warmth of wood at a lower cost and resists moisture.
 
-Benefits:
+Advantages:
 - PS material imitates real wood grain, costs less, and holds up better than PVC
 - Ideal for living rooms, studies, and offices—adds a cozy, natural feel
 - Manual chain/rod control or optional rechargeable battery motor for cordless use
 - Available in wood tones, whitewash, dark espresso, and modern gray
 - Minimum size 80cm×300cm; maximum size 220cm×300cm for floor-to-ceiling coverage
 - Easy tilt mechanism for precise light control; slats stack neatly when open
-- Strong headrail and metal-reinforced ladder tapes for smooth operation
+- Strong headrail and metal-reinforced ladder tapes ensure smooth operation
 
 Perfect for:
 - Living rooms and bedrooms where you want a wood-grain look without real wood

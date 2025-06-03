@@ -1,4 +1,4 @@
-'use client';
+"use client"
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
@@ -25,16 +25,15 @@ export default function Colors({ slug, operation }: Props) {
       ? `blinds/${slug}/${operation}/color`
       : `blinds/${slug}/color`;
     
-    console.log('Fetching color files from:', path);
     setIsLoading(true);
     setError(null);
+
     fetch(`/api/images?productId=${slug}&directory=${operation ? `${operation}/color` : 'color'}`)
       .then(async res => {
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
         const data = await res.json();
-        console.log('API response:', data);
         return data;
       })
       .then(files => {
@@ -44,26 +43,23 @@ export default function Colors({ slug, operation }: Props) {
         const imageFiles = files
           .filter((file: string) => {
             const decodedFile = decodeURIComponent(file);
-            const isValid = decodedFile.match(/\.(jpg|jpeg|png)$/i);
-            console.log('File:', decodedFile, 'isValid:', isValid);
-            return isValid;
+            return decodedFile.match(/\.(jpg|jpeg|png)$/i);
           })
           .map(file => {
             const decodedFile = decodeURIComponent(file);
-            const url = `https://fhasj7d8bol4e7bf.public.blob.vercel-storage.com/blinds/${slug}${operation ? `/${operation}` : ''}/color/${decodedFile}`;
-            console.log('Created URL:', url);
             return {
               name: file,
-              url
+              url: `https://fhasj7d8bol4e7bf.public.blob.vercel-storage.com/blinds/${slug}${
+                operation ? `/${operation}` : ''
+              }/color/${decodedFile}`
             };
           });
-        console.log('Processed color files:', imageFiles);
         setColorFiles(imageFiles);
         setIsLoading(false);
       })
-      .catch(error => {
-        console.error('Error fetching color files:', error);
-        setError(error.message);
+      .catch(err => {
+        console.error('Error fetching color files:', err);
+        setError(err.message);
         setColorFiles([]);
         setIsLoading(false);
       });
@@ -85,14 +81,9 @@ export default function Colors({ slug, operation }: Props) {
     );
   }
 
+  // If there are no color files, don't render anything
   if (colorFiles.length === 0) {
-    return (
-      <div className="w-full h-[200px] border-2 border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <span className="text-gray-400 block mb-2">No color options available</span>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   const handleImageClick = (image: ColorFile) => {
@@ -105,7 +96,7 @@ export default function Colors({ slug, operation }: Props) {
 
   return (
     <div className="w-full">
-      <h2 className="text-xl font-semibold mb-4">Available Colors</h2>
+      <h2 className="text-xl font-semibold mb-4 mt-6">Available Colors</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         {colorFiles.map((file, index) => (
           <div
@@ -118,7 +109,7 @@ export default function Colors({ slug, operation }: Props) {
               alt={`Color option ${index + 1}`}
               fill
               className="object-cover"
-              onError={(e) => {
+              onError={() => {
                 console.error('Image failed to load:', file.url);
                 setError('Failed to load image');
               }}
@@ -145,7 +136,7 @@ export default function Colors({ slug, operation }: Props) {
               alt="Selected color"
               fill
               className="object-contain"
-              onError={(e) => {
+              onError={() => {
                 console.error('Full-screen image failed to load:', selectedImage.url);
                 setError('Failed to load image');
               }}
@@ -155,4 +146,4 @@ export default function Colors({ slug, operation }: Props) {
       )}
     </div>
   );
-} 
+}

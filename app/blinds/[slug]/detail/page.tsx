@@ -1,6 +1,7 @@
 import { products } from '@/data/metadata';
 import { notFound } from 'next/navigation';
 import MediaGallery from './MediaGallery';
+import TextDescription from '@/app/components/TextDescription';
 import Colors from '@/app/components/Colors';
 import LongImage from '@/app/components/LongImage';
 import Breadcrumb from '@/app/components/Breadcrumb';
@@ -35,6 +36,9 @@ export default async function ProductDetailPage({ params }: Props) {
         <div className="w-[85vw]">
           <MediaGallery slug={slug} />
         </div>
+        <div className="w-[90vw] max-w-[500px] mt-6">
+          <TextDescription slug={slug} />
+        </div>
         <div className="w-[90vw] max-w-[500px] mt-[5vw]">
           <Colors slug={slug} />
         </div>
@@ -47,6 +51,7 @@ export default async function ProductDetailPage({ params }: Props) {
           <MediaGallery slug={slug} />
         </div>
         <div>
+          <TextDescription slug={slug} />
           <Colors slug={slug} />
         </div>
       </div>
