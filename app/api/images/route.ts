@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { listBlobs } from '@/lib/blob-storage'
+import { getFilenamesFromManifest } from '@/lib/manifest-utils'
 
 // This is a new change after v1.0
 export async function GET(request: Request) {
@@ -13,28 +13,21 @@ export async function GET(request: Request) {
 
   try {
     const prefix = `blinds/${productId}/${directory}/`
-    console.log('Listing blobs with prefix:', prefix)
-    const blobs = await listBlobs(prefix)
-    console.log('Received blobs:', blobs)
+    console.log('Looking for files with prefix:', prefix)
     
-    // If no blobs found, return empty array instead of error
-    if (!blobs || blobs.length === 0) {
-      console.log('No blobs found for prefix:', prefix)
+    const filenames = getFilenamesFromManifest(prefix)
+    console.log('Found filenames:', filenames)
+    
+    // If no files found, return empty array instead of error
+    if (!filenames || filenames.length === 0) {
+      console.log('No files found for prefix:', prefix)
       return NextResponse.json([])
     }
-    
-    // Extract just the filenames from the blob URLs
-    const imageFiles = blobs.map(blob => {
-      const url = new URL(blob.url)
-      const filename = url.pathname.split('/').pop()
-      console.log('Extracted filename:', filename)
-      return filename
-    })
 
-    console.log('Returning image files:', imageFiles)
-    return NextResponse.json(imageFiles)
+    console.log('Returning filenames:', filenames)
+    return NextResponse.json(filenames)
   } catch (error) {
-    console.error('Error listing blobs:', error)
+    console.error('Error getting files from manifest:', error)
     // Return empty array instead of error for missing folders
     return NextResponse.json([])
   }

@@ -1,4 +1,4 @@
-import { put, del, list } from '@vercel/blob';
+import { put, del } from '@vercel/blob';
 
 export async function uploadToBlob(file: File, pathname: string) {
   try {
@@ -17,16 +17,6 @@ export async function deleteFromBlob(url: string) {
     await del(url);
   } catch (error) {
     console.error('Error deleting from blob:', error);
-    throw error;
-  }
-}
-
-export async function listBlobs(prefix: string) {
-  try {
-    const { blobs } = await list({ prefix });
-    return blobs;
-  } catch (error) {
-    console.error('Error listing blobs:', error);
     throw error;
   }
 } 

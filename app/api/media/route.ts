@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { listBlobs } from '@/lib/blob-storage';
+import { getFilenamesFromManifest } from '@/lib/manifest-utils';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -11,18 +11,12 @@ export async function GET(request: Request) {
 
   try {
     const prefix = `${mediaPath}/`;
-    const blobs = await listBlobs(prefix);
+    const filenames = getFilenamesFromManifest(prefix);
     
-    // Extract filenames from blob URLs
-    const files = blobs.map(blob => {
-      const url = new URL(blob.url);
-      return url.pathname.split('/').pop() || '';
-    });
-
-    console.log('Found files:', files);
-    return NextResponse.json(files);
+    console.log('Found files:', filenames);
+    return NextResponse.json(filenames);
   } catch (error) {
-    console.error('Error listing blobs:', error);
+    console.error('Error listing media files:', error);
     return NextResponse.json({ error: 'Failed to list media files' }, { status: 500 });
   }
 } 
