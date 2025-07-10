@@ -23,10 +23,10 @@ export default function Footer() {
 
           {/* Contact Information */}
           <div className="flex flex-col items-center md:items-end gap-3">
-            <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2">
               <Phone className="h-5 w-5 text-blue-800" />
               <span className="text-blue-800 font-bold">800-505-1905</span>
-            </div>
+            </div> */}
             <div className="flex items-center gap-2">
               <Mail className="h-5 w-5 text-blue-800" />
               <span className="text-blue-800 font-bold">support@icurtainx.com</span>
