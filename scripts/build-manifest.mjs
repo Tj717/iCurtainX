@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 
 // === CONFIGURATION (Set your values here) ===
-const BLOB_TOKEN = 'vercel_blob_rw_fhAsJ7d8bol4e7bF_EIDbn3IO3HSWyxngTadCEGSZzYigtq'; // <-- replace with your actual token
+const BLOB_TOKEN = 'old token'; // <-- replace with your actual token
 const BLOB_PREFIX = 'blinds/'; // Folder in your blob storage
 const OUTPUT_PATH = './data/manifest.json'; // Output location
 // ============================================
